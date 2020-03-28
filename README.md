@@ -21,13 +21,21 @@ Processing for tweets can be all done with a single function call.
 1. Original nlppreprocess
 2. Dedicated for tweets
    • Lower-casing
+   
    • Normalizing URLs
+   
    • Normalizing Tags and email addresses
+   
    • Normalizing Numbers
+   
    • Normalizing Dollars
+   
    • Normalize punctuation
+   
    • Removal of composition
+   
    • Removal of punctuation
+   
    • Word Stemming (Porter Stemmer)
 
 # Usage
