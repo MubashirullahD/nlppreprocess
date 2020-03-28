@@ -127,7 +127,10 @@ stopwords = ['i', 'me', 'mine', 'he', 'she', 'it', 'a', 'an', 'the',
              'so', 'is', 'be']
 
 import re
-
+import numpy as np
+import pandas as pd
+import nltk
+from collections import Counter
 from nltk.stem import WordNetLemmatizer
 from nltk.stem.snowball import SnowballStemmer
 
@@ -154,6 +157,7 @@ class NLP():
         if lemmatize_method not in ['wordnet', 'snowball']:
             raise Exception("Error - lemmatizer method not supported")
         self.doc = None
+        self.tweets = None
         self.lemmatizer = None
         self.remove_stopwords = remove_stopwords
         self.replace_words = replace_words
@@ -348,3 +352,58 @@ class NLP():
             self.lemmatize_fun()
         return self.doc
 
+    def processTweet(self, tweets):
+        """
+        Expects tweets to be a pandas series
+        Example use-case:
+              tweets = processTweet(tweets)
+        ______________________________________
+        • Lower-casing
+        • Normalizing URLs
+        • Normalizing Tags and email addresses
+        • Normalizing Numbers
+        • Normalizing Dollars
+        • Normalize punctuation
+        • Removal of composition
+        • Removal of punctuation
+        • Word Stemming (Porter Stemmer)
+        """
+        self.tweets = tweets
+        # Lower case text
+        tweets = tweets.str.lower()
+
+        # HTML tags
+        tweets = tweets.str.replace(r"<[^<>]+>", " ")
+
+        # Account Tag @theFakeDonaldTrump 
+        tweets = tweets.str.replace(r"@[^\s]+", 'idaddr')
+
+        # Email address
+        tweets = tweets.str.replace(r"[^\s]+@[^\s]+", 'emailaddr')
+
+        # Handle URLS
+        # Look for strings starting with http:// or https://
+        tweets = tweets.str.replace(r"(http|https)://[^\s]*", 'httpaddr')
+
+        # Handle Numbers
+        # Look for one or more characters between 0-9
+        tweets = tweets.str.replace(r"[0-9]+", 'number')
+
+        # Handle $ sign
+        tweets = tweets.str.replace(r"[$]+", 'dollar')
+
+        # Normalize punctuation
+        transl_table = dict( [ (ord(x), ord(y)) for x,y in zip( u"‘’´“”–-",  u"'''\"\"--") ] ) 
+        tweets = tweets.apply(lambda a: a.translate(transl_table))
+
+        # Expand Contractions
+        tweets = tweets.apply(lambda string: " ".join([to_replace[i] if i in to_replace.keys() else i for i in string.split()]))
+
+        # Handle punctuation
+        tweets = tweets.str.replace(r"[^\w]+", ' ')
+
+        # Stem
+        stemmer = nltk.stem.PorterStemmer()
+        tweets  = tweets.apply(lambda a: list(map(stemmer.stem,a.split())))
+
+        return tweets        
