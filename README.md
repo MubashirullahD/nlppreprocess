@@ -1,6 +1,7 @@
 # NLPPREPROCESS
 
 NLPPREPROCESS is a preprocessing package for NLP task. The main objective of the package is to reduce time consumed for preprocessing by using ready made functions.
+Processing for tweets can be all done with a single function call.
 
 # Requirements
 
@@ -8,25 +9,26 @@ NLPPREPROCESS is a preprocessing package for NLP task. The main objective of the
 
 # Installation
 
- ### Using PIP via PyPI
- ```
- $ pip install nlppreprocess
- ```
 
  ### Manually via GIT
  ```
- $ git clone git://github.com/gaganmanku96/nlppreprocess
+ $ git clone git://github.com/MubashirullahD/nlppreprocess
  $ cd nlppreprocess
  $ python setup.py install
  ```
 
 # Functionalities
-1. Replaces words
-2. Remove stopwords
-3. Remove numbers
-4. Remove HTML tags
-5. Remove punctations
-6. Lemmatize words either by Wordnet or Snowball
+1. Original nlppreprocess
+2. Dedicated for tweets
+   • Lower-casing
+   • Normalizing URLs
+   • Normalizing Tags and email addresses
+   • Normalizing Numbers
+   • Normalizing Dollars
+   • Normalize punctuation
+   • Removal of composition
+   • Removal of punctuation
+   • Word Stemming (Porter Stemmer)
 
 # Usage
 ```
@@ -48,6 +50,7 @@ NLPPREPROCESS is a preprocessing package for NLP task. The main objective of the
  ## Using with Pandas Library
  ```
  >>> dataFrame['text'] = dataFrame['text].apply(obj.process)
+ >>> dataFrame['text'] = obj.processTweet(dataFrame['text])
 
  ```
  ## Using with plain textx
