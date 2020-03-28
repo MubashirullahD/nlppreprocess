@@ -40,7 +40,7 @@ Processing for tweets can be all done with a single function call.
 
 # Usage
 ```
->>> from nlpuitls import NLP
+>>> from nlppreprocess import NLP
 >>> obj = NLP()
 ```
  ## Parameters
