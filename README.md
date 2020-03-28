@@ -20,6 +20,7 @@ Processing for tweets can be all done with a single function call.
 # Functionalities
 1. Original nlppreprocess
 2. Dedicated for tweets
+   
    • Lower-casing
    
    • Normalizing URLs
@@ -57,7 +58,9 @@ Processing for tweets can be all done with a single function call.
  ```
  ## Using with Pandas Library
  ```
+ Original default
  >>> dataFrame['text'] = dataFrame['text].apply(obj.process)
+ For tweets
  >>> dataFrame['text'] = obj.processTweet(dataFrame['text])
 
  ```
