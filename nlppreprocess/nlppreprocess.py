@@ -372,9 +372,6 @@ class NLP():
         # Lower case text
         tweets = tweets.str.lower()
 
-        # HTML tags
-        tweets = tweets.str.replace(r"<[^<>]+>", " ")
-
         # Account Tag @theFakeDonaldTrump 
         tweets = tweets.str.replace(r"@[^\s]+", 'idaddr')
 
